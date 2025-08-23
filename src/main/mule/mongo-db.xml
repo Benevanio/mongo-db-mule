@@ -25,6 +25,6 @@ output application/json
 payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="82b00ae6-5735-4ca1-9d09-87a45f94fb32" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="82b00ae6-5735-4ca1-9d09-87a45f94fb32" message="MongoDB Response: #[payload]"/>
 	</flow>
 </mule>
