@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="mongo-dbFlow" doc:id="6801a9dc-01a5-4cb7-8f35-946241daaab4" >
+		<http:listener doc:name="Listener" doc:id="a5d8b0cf-37a7-4179-9930-f1a9deb3b2e1" config-ref="HTTP_Listener_config" path="/test" allowedMethods="GET"/>
+		<ee:transform doc:name="Transform Message" doc:id="e67873ae-c4d8-477e-b2ac-a3ffb85249de" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<mongo:find-documents collectionName="pokemon" fields="Name" doc:name="Find documents" doc:id="701d6a8a-bd87-4581-8a10-2c50fc98645f" config-ref="MongoDB_Config"/>
+		<ee:transform doc:name="Transform Message" doc:id="a721299d-5740-455c-9425-8040aee9bc6f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="82b00ae6-5735-4ca1-9d09-87a45f94fb32" message="#[payload]"/>
+	</flow>
+</mule>
